@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1C3D65">
+<title>給小白的一句話回饋｜齊家不動產</title>
+<meta name="description" content="全部用點的，不用打字，30 秒整理成一段話。">
+<meta property="og:title" content="給小白的一句話回饋">
+<meta property="og:description" content="全部用點的，不用打字，30 秒就好。">
+<meta property="og:type" content="website">
+<link rel="icon" href="logo-color.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1C3D65; --blue-m:#325B8E; --blue-l:#7DA3CA;
+    --ink:#062345; --ink-soft:#56626E; --line:#DCDDDD; --bg:#F7F8F8; --card:#fff; --tint:#EEF3F9;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column;
+    background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    font-size:17px;line-height:1.7;
+  }
+  #bar{
+    flex:none;height:56px;z-index:10;
+    background:linear-gradient(90deg,#00355E,var(--blue));color:#fff;
+    display:flex;align-items:center;gap:12px;padding:0 16px;
+    border-bottom:2px solid var(--blue-l);box-shadow:0 2px 12px rgba(0,0,0,.25);
+  }
+  #bar .logo{flex:none;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:9px;padding:4px 8px;height:36px;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+  #bar .logo img{height:28px;width:auto;display:block}
+  #bar h1{font-size:18px;margin:0;font-weight:800;letter-spacing:.5px;white-space:nowrap;line-height:1.15}
+  #bar h1 small{display:block;font-size:12.5px;font-weight:500;color:var(--blue-l);letter-spacing:normal;line-height:1.15;margin-top:4px;white-space:normal;text-align:justify;text-align-last:justify}
+  #scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:0 16px 56px}
+  .wrap{max-width:560px;margin:0 auto}
+  .intro{padding:28px 0 4px}
+  .intro h2{font-size:25px;line-height:1.45;margin:0 0 8px;font-weight:900;color:var(--blue)}
+  .lead{color:var(--ink-soft);font-size:15.5px;margin:0}
+  .lead b{color:var(--blue-m)}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-top:18px}
+  .step-no{display:inline-block;font-size:13px;font-weight:700;color:var(--blue-m);background:var(--tint);border-radius:999px;padding:3px 11px;margin-bottom:10px}
+  .q{font-size:18px;font-weight:700;margin:0 0 4px}
+  .hint{font-size:14px;color:var(--ink-soft);margin:0 0 14px}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{
+    position:relative;width:100%;border:1.5px solid var(--line);background:#fff;color:var(--ink);
+    border-radius:12px;padding:11px 40px 11px 15px;font-size:16px;font-family:inherit;line-height:1.5;
+    text-align:left;cursor:pointer;transition:border-color .12s,background .12s,transform .12s;
+  }
+  .opt:active{transform:scale(.98)}
+  .opt.on{border-color:var(--blue-m);background:var(--tint);font-weight:700;color:var(--blue)}
+  .opt.on::after{content:"✓";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-weight:900;color:var(--blue-m)}
+  .opt:focus-visible,.btn:focus-visible,textarea:focus-visible,#bar .logo:focus-visible{outline:3px solid var(--blue-l);outline-offset:2px}
+  textarea{
+    width:100%;min-height:220px;border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;
+    font-size:16.5px;font-family:inherit;line-height:1.7;color:var(--ink);background:#fff;resize:vertical;
+  }
+  textarea:focus{outline:none;border-color:var(--blue-m)}
+  .btn{display:block;width:100%;border:none;border-radius:14px;padding:17px;font-size:18px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:18px;line-height:1.4}
+  .btn-main{background:var(--blue);color:#fff;box-shadow:0 3px 10px rgba(28,61,101,.28)}
+  .btn-main:disabled{background:#B5B5B6;box-shadow:none;cursor:default}
+  .btn-ghost{background:#fff;color:var(--blue-m);border:1.5px solid var(--line);font-size:16px;font-weight:700;padding:13px;margin-top:10px}
+  .need{text-align:center;font-size:14px;color:var(--ink-soft);margin:10px 0 0}
+  .note{background:var(--tint);border-radius:12px;padding:13px 15px;font-size:14.5px;color:var(--blue);line-height:1.65;margin:0 0 14px}
+  .tail{text-align:center;color:var(--ink-soft);font-size:13.5px;margin-top:22px;line-height:1.7}
+  .done{text-align:center;padding:40px 0 0}
+  .tick{width:64px;height:64px;border-radius:50%;background:#407864;color:#fff;font-size:34px;font-weight:900;line-height:64px;margin:0 auto 16px}
+  .done h2{font-size:22px;margin:0 0 10px;color:var(--blue)}
+  .done p{color:var(--ink-soft);font-size:16px;margin:0 auto;max-width:340px}
+  .inapp{background:#FBF0E2;border:1.5px solid #F5D9A8;border-radius:16px;padding:18px 16px;margin-top:22px;color:#45525F}
+  .inapp-t{font-size:18px;font-weight:800;color:#9A4F05;margin-bottom:8px;line-height:1.5}
+  .inapp p{font-size:15.5px;margin:0 0 6px;line-height:1.7}
+  .inapp ol{font-size:15px;margin:0;padding-left:22px;line-height:1.9}
+  .btn-warn{background:#D97706;color:#fff}
+  .inapp .btn-ghost{color:#9A4F05;border-color:#F5D9A8}
+  [hidden]{display:none!important}
+  @media (max-width:1023px){
+    body{height:auto;overflow:visible;display:block}
+    #bar{position:sticky;top:0}
+    #scroll{overflow:visible}
+  }
+  @media (max-width:640px){
+    #bar{gap:8px;padding:0 10px}
+    #bar h1{font-size:16px}
+    #bar h1 small{font-size:11.5px;margin-top:3px}
+    #bar .logo{height:31px;padding:3px 7px;border-radius:8px}
+    #bar .logo img{height:24px}
+    .intro h2{font-size:23px}
+  }
+</style>
+</head>
+<body>
+<header id="bar">
+  <a class="logo" href="https://www.benebuyhouse.com/" target="_blank" rel="noopener" title="前往齊家不動產官網"><img src="logo-color.png" alt="齊家不動產"></a>
+  <h1>給小白的一句話回饋<small>齊家不動產 × 陪你買好房</small></h1>
+</header>
+
+<div id="scroll">
+<div class="wrap">
+
+  <div id="inapp" class="inapp" hidden>
+    <div class="inapp-t">請先用瀏覽器打開這一頁</div>
+    <p id="inappMsg"></p>
+    <ol id="inappSteps" hidden></ol>
+    <button class="btn btn-warn" id="openBtn" hidden>用瀏覽器開啟</button>
+    <button class="btn btn-ghost" id="copyUrlBtn">複製這頁網址</button>
+  </div>
+
+  <main id="form">
+    <div class="intro">
+      <h2>謝謝你願意花 30 秒</h2>
+      <p class="lead">全部用點的，不用打字。<b>整理出來的文字可以隨便改</b>，改成你自己會說的話最好。</p>
+    </div>
+
+    <section class="step">
+      <span class="step-no">1</span>
+      <p class="q">這次找我，是為了什麼事？</p>
+      <p class="hint">選一個就好</p>
+      <div class="opts" id="svcOpts"></div>
+    </section>
+
+    <section class="step">
+      <span class="step-no">2</span>
+      <p class="q">當初是怎麼找到我的？</p>
+      <p class="hint">選一個，也可以跳過</p>
+      <div class="opts" id="srcOpts"></div>
+    </section>
+
+    <section class="step">
+      <span class="step-no">3</span>
+      <p class="q">哪幾點你最有感？</p>
+      <p class="hint">可以複選，勾 2～3 個就夠</p>
+      <div class="opts" id="pointOpts"></div>
+    </section>
+
+    <section class="step">
+      <span class="step-no">4</span>
+      <p class="q">還想多說一句嗎？</p>
+      <p class="hint">可以跳過，最多點 2 個</p>
+      <div class="opts" id="extraOpts"></div>
+    </section>
+
+    <button class="btn btn-main" id="genBtn" disabled>幫我整理成一段話</button>
+    <p class="need" id="need">第 1 題選一個、第 3 題至少點一個，就可以整理了</p>
+    <p class="tail">這個頁面不會記錄你點了什麼，<br>文字只留在你自己的手機裡。</p>
+  </main>
+
+  <main id="result" hidden>
+    <section class="step">
+      <p class="note">這是照你點的整理出來的，<b>直接在下面改字沒關係</b>，改成你自己的口氣最好。</p>
+      <textarea id="draft" aria-label="評論草稿"></textarea>
+      <button class="btn btn-main" id="goBtn">複製，前往 Google 評論</button>
+      <button class="btn btn-ghost" id="againBtn">換一種說法</button>
+      <button class="btn btn-ghost" id="backBtn">回去改選項</button>
+    </section>
+    <p class="tail" id="resultTail">按下之後文字會自動複製，<br>到 Google 的評論框<b>長按 → 貼上</b>就好。</p>
+  </main>
+
+  <main id="done" hidden>
+    <div class="done">
+      <div class="tick">✓</div>
+      <h2>已經幫你複製好了</h2>
+      <p id="doneMsg">到 Google 的評論框<b>長按 → 貼上</b>，<br>選好星星、按「發布」就完成了。</p>
+      <button class="btn btn-main" id="reopenBtn">沒有自動打開？再開一次</button>
+      <button class="btn btn-ghost" id="webBtn" hidden>沒有 Google 地圖 App？改用瀏覽器<br>（需要登入 Google）</button>
+    </div>
+  </main>
+
+</div>
+</div>
+
+<script>
+const NAME = '小白';
+const REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJQVACXXt3bjQRc0SSbXY9TpU';
+const MAPS_REVIEW_URL = 'https://www.google.com/maps/place//data=!4m3!3m2!1s0x346e777b5d025041:0x954e3d766d924473!12e1';
+
+const SERVICES = [
+  { k: '買', label: '買房子', says: ['這次是找他買房', '這次買房是找他', '這次找他是為了買房'] },
+  { k: '賣', label: '賣房子', says: ['這次是找他賣房子', '這次賣房是找他', '這次找他是為了賣房子'] },
+  { k: '租', label: '租的事（租屋、出租）', says: ['這次是為了租的事找他', '這次找他是為了租的事'] },
+  { k: '問', label: '來問問題', says: ['這次是找他諮詢', '這次找他是有問題想請教', '這次是有問題想問他'] },
+];
+
+const SOURCES = [
+  { label: '親友介紹的', says: ['當初是親友介紹才認識他的', '是親友推薦我去找他的', '身邊的人介紹我找他'] },
+  { label: '看了影片或文章才來的', says: ['一開始是看到他在網路上分享的內容', '是看了他分享的內容才找過來的', '先看過他分享的內容，才決定找他'] },
+  { label: '在 FB 社團或 LINE 群看到的', says: ['一開始是在社群上看到他', '是在網路社群認識他的', '在社群上看到他，才主動來問'] },
+  { label: '上網搜尋找到的', says: ['是上網搜尋找到他的', '當初是在網路上找到他', '上網找房仲的時候找到他的'] },
+  { label: '之前就找過，這次又回來', says: ['不是第一次找他了', '之前就找過他', '已經不是第一次找他'] },
+];
+
+const DEAL = ['買', '賣', '租'];
+const POINTS = [
+  { label: '數字算得很清楚，總共要花多少都講明白', lines: [
+    '每一筆費用都攤開算給我看，總共要花多少講得很明白',
+    '數字算得很清楚，不是只丟一個總價給我',
+    '錢的部分講得很仔細，要花多少我心裡都有底',
+    { t: '買房前前後後要準備多少錢，都先幫我算清楚', only: ['買'] },
+    { t: '賣掉之後實際能拿回多少，都先幫我算清楚', only: ['賣'] },
+  ] },
+  { label: '缺點跟風險也會講，不是只挑好聽的說', lines: [
+    '缺點跟風險都會直接講，不會只挑好聽的說',
+    '該提醒的地方都有提醒，沒有為了成交只講優點',
+    '好的壞的都會老實跟我說',
+    '不好的地方也會先講清楚，讓我自己判斷',
+  ] },
+  { label: '幫我把關，該注意的都先提醒', lines: [
+    '很多我沒注意到的地方，他都先幫我把關',
+    '該注意的地方都先提醒我，讓我很放心',
+    '是站在我的立場幫我想，不是只想著成交',
+    { t: '合約跟流程上的細節都幫我看過，我比較放心', only: DEAL },
+  ] },
+  { label: '照我的狀況幫我規劃，不是每個人都講一樣的', lines: [
+    '會先了解我的狀況再給建議，不是每個人都講同一套',
+    '是照我的需求幫我規劃的，看得出來很用心',
+    '給的建議都是針對我的情況，不是套公式',
+  ] },
+  { label: '很專業，講得我聽得懂', lines: [
+    '很專業，講的都是我聽得懂的話',
+    '流程跟規定都很熟，解釋得很清楚',
+    '我問得很基本他也很有耐心，講到我懂為止',
+    '每個建議都會說明原因，不是叫我照做就好',
+  ] },
+  { label: '訊息回得很快，問什麼都有回', lines: [
+    '訊息回得很快，問什麼都有回',
+    '有問題傳訊息過去，很快就有回覆',
+    '問的每個問題都有回，不會已讀不回',
+    '回覆很即時，不用一直等',
+  ] },
+  { label: '不催不逼，給我時間慢慢想', lines: [
+    '從頭到尾都沒有催我，讓我照自己的步調決定',
+    '不會一直逼我做決定，給我時間慢慢想',
+    '完全沒有被推銷的壓力',
+    '我說要再想想，他就真的讓我想',
+  ] },
+  { label: '幫我處理掉很麻煩的事', lines: [
+    '很多麻煩的事都幫我處理好了，我省了很多力氣',
+    '原本覺得很複雜的事，他一步一步幫我處理掉',
+    '遇到問題都是他先想辦法解決',
+    { t: '流程跟文件都幫我盯著，我只要在該出現的時候出現', only: DEAL },
+  ] },
+];
+
+const EXTRAS_COMMON = [
+  '整個過程很安心',
+  '比我原本想的順利很多',
+  '之後有需要還會再找他',
+  '會推薦給身邊的朋友',
+  '到現在有問題還是會問他',
+  '講話很實在，沒有業務感',
+  '很慶幸有找他',
+];
+const EXTRAS_BY = {
+  買: ['最後買到的房子我很滿意', '交屋之後有問題他還是會幫忙', '第一次買房，還好有他帶著'],
+  賣: ['最後成交的價格我很滿意', '比我預期的還快賣掉', '我人不在台南，幾乎都是他在跑'],
+  租: ['租的事終於不用自己煩惱', '之後這方面的事都會找他'],
+  問: ['我還沒要買賣，他也是認真回答', '問完之後觀念清楚很多', '沒有因為我只是問問就敷衍我'],
+};
+
+const CLOSERS = ['謝謝他', '真的很感謝', '推薦給有需要的人', '很推薦'];
+const CONNECT = ['，而且', '。另外，', '，', '。', '。還有，'];
+
+const pick = (a) => a[Math.floor(Math.random() * a.length)];
+const shuffle = (a) => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+const end = (s) => (/[。！？]$/.test(s) ? s : s + '。');
+
+function nameIt(text) {
+  const spots = [];
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === '他' && text[i - 1] !== '其' && text[i + 1] !== '們') spots.push(i);
+  }
+  if (!spots.length) return text;
+  const use = spots.length >= 3 && Math.random() < 0.25 ? [spots[0], spots[spots.length - 1]] : [spots[0]];
+  return use.reverse().reduce((s, i) => s.slice(0, i) + NAME + s.slice(i + 1), text);
+}
+
+// 每一句都只來自客人點的選項，隨機的只有「同一件事的不同講法」，不替客人編沒發生過的事
+function compose() {
+  let text = end(src ? pick(src.says) + pick(['，', '。']) + pick(svc.says) : pick(svc.says));
+  const pool = shuffle(CONNECT);
+  shuffle([...chosen]).forEach((p, i) => {
+    const lines = p.lines.filter((x) => typeof x === 'string' || x.only.includes(svc.k)).map((x) => x.t || x);
+    text += (i ? pool[(i - 1) % pool.length] : '') + pick(lines);
+  });
+  text = end(text);
+  extras.forEach((e) => { text += end(e); });
+  const closers = CLOSERS.filter((c) => !(c.includes('推薦') && text.includes('推薦')));
+  if (Math.random() < 0.5) text += end(pick(closers));
+  return nameIt(text);
+}
+
+const $ = (id) => document.getElementById(id);
+let svc = null;
+let src = null;
+const chosen = new Set();
+const extras = new Set();
+
+function addOpt(box, label, onClick) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'opt'; b.textContent = label;
+  b.setAttribute('aria-pressed', 'false');
+  b.addEventListener('click', () => onClick(b));
+  box.appendChild(b);
+  return b;
+}
+function setOn(b, on) { b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+function clearBox(box) { [...box.children].forEach((x) => setOn(x, false)); }
+
+function refresh() {
+  const ok = !!svc && chosen.size > 0;
+  $('genBtn').disabled = !ok;
+  $('need').hidden = ok;
+}
+
+function buildExtras() {
+  extras.clear();
+  $('extraOpts').innerHTML = '';
+  const pool = [...EXTRAS_COMMON, ...(svc ? EXTRAS_BY[svc.k] : [])];
+  shuffle(pool).slice(0, 6).forEach((t) => addOpt($('extraOpts'), t, (b) => {
+    if (extras.has(t)) { extras.delete(t); setOn(b, false); }
+    else if (extras.size < 2) { extras.add(t); setOn(b, true); }
+  }));
+}
+
+SERVICES.forEach((s) => addOpt($('svcOpts'), s.label, (b) => {
+  if (svc === s) return;
+  clearBox($('svcOpts')); setOn(b, true);
+  svc = s; buildExtras(); refresh();
+}));
+SOURCES.forEach((s) => addOpt($('srcOpts'), s.label, (b) => {
+  const off = src === s;
+  clearBox($('srcOpts'));
+  src = off ? null : s;
+  if (!off) setOn(b, true);
+}));
+POINTS.forEach((p) => addOpt($('pointOpts'), p.label, (b) => {
+  if (chosen.has(p)) { chosen.delete(p); setOn(b, false); }
+  else { chosen.add(p); setOn(b, true); }
+  refresh();
+}));
+buildExtras();
+
+function show(id) {
+  ['form', 'result', 'done'].forEach((v) => { $(v).hidden = v !== id; });
+  window.scrollTo(0, 0);
+  $('scroll').scrollTop = 0;
+}
+$('genBtn').addEventListener('click', () => { $('draft').value = compose(); show('result'); });
+$('againBtn').addEventListener('click', () => { $('draft').value = compose(); });
+$('backBtn').addEventListener('click', () => show('form'));
+
+// iOS 的剪貼簿只在點擊當下的同步脈絡有效，而且下一行就要跳走，所以用同步的 execCommand 複製
+function copyNow(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px';
+  document.body.appendChild(ta);
+  ta.select();
+  ta.setSelectionRange(0, text.length);
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+  try { navigator.clipboard.writeText(text).catch(() => {}); } catch (e) {}
+}
+
+// iPhone 的 Safari 多半沒登入 Google，改交給 Google 地圖 App（通常已登入）直接開評論框
+const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const GO_URL = IS_IOS ? MAPS_REVIEW_URL : REVIEW_URL;
+const draftText = () => $('draft').value.trim();
+
+if (IS_IOS) {
+  $('goBtn').textContent = '複製，到 Google 地圖寫評論';
+  $('resultTail').innerHTML = '按下之後會複製好文字、打開 Google 地圖，<br>在評論框<b>長按 → 貼上</b>就好。';
+  $('doneMsg').innerHTML = '在 Google 地圖的評論框<b>長按 → 貼上</b>，<br>選好星星、按「發布」就完成了。<br>沒看到評論框，就點「撰寫評論」。';
+  $('reopenBtn').textContent = '沒有自動打開？再開一次 Google 地圖';
+  $('webBtn').hidden = false;
+}
+
+$('goBtn').addEventListener('click', () => {
+  const text = draftText(); if (!text) return;
+  copyNow(text);
+  show('done');
+  // iOS 一定要在同一個點擊裡同步跳轉，連結才會交給 Google 地圖 App；包進 setTimeout 只會開 Safari
+  if (IS_IOS) window.location.href = GO_URL;
+  else setTimeout(() => { window.location.href = GO_URL; }, 600);
+});
+$('reopenBtn').addEventListener('click', () => { const t = draftText(); if (t) copyNow(t); window.location.href = GO_URL; });
+$('webBtn').addEventListener('click', () => { const t = draftText(); if (t) copyNow(t); window.location.href = REVIEW_URL; });
+
+// Google 不接受在 LINE／FB／IG 的內建瀏覽器登入，走到最後一步才會卡住，所以一進來就先攔下來
+(function () {
+  const UA = navigator.userAgent || '';
+  const app = /\bLine\//i.test(UA) ? 'LINE'
+    : /Instagram/i.test(UA) ? 'Instagram'
+    : /Barcelona/i.test(UA) ? 'Threads'
+    : /MicroMessenger/i.test(UA) ? '微信'
+    : /FBAN|FBAV|FB_IAB/i.test(UA) ? 'Facebook' : '';
+  if (!app) return;
+
+  const bare = location.origin + location.pathname;
+  $('inappMsg').textContent = '你現在是在 ' + app + ' 裡面開這一頁。Google 不接受在 App 內建的瀏覽器登入，在這裡寫評論會失敗，換到瀏覽器只要一步。';
+
+  if (app === 'LINE' && !/openExternalBrowser=1/.test(location.search)) {
+    $('openBtn').hidden = false;
+    $('openBtn').addEventListener('click', () => { location.href = bare + '?openExternalBrowser=1'; });
+  } else if (!/iPad|iPhone|iPod/.test(UA)) {
+    $('openBtn').hidden = false;
+    $('openBtn').addEventListener('click', () => {
+      location.href = 'intent://' + bare.replace(/^https?:\/\//, '') + '#Intent;scheme=https;action=android.intent.action.VIEW;end';
+    });
+  } else {
+    const how = app === 'Instagram' || app === 'Threads'
+      ? ['點右上角的「⋯」', '選「在瀏覽器中開啟」']
+      : ['點右上角或右下角的「⋯」', '選「在 Safari 中開啟」'];
+    how.forEach((t) => { const li = document.createElement('li'); li.textContent = t; $('inappSteps').appendChild(li); });
+    $('inappSteps').hidden = false;
+  }
+
+  $('copyUrlBtn').addEventListener('click', (e) => { copyNow(bare); e.target.textContent = '已複製，貼到瀏覽器打開'; });
+  $('inapp').hidden = false;
+})();
+</script>
+</body>
+</html>
