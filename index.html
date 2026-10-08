@@ -43,7 +43,9 @@
   .intro h2{font-size:25px;line-height:1.45;margin:0 0 8px;font-weight:900;color:var(--blue)}
   .lead{color:var(--ink-soft);font-size:15.5px;margin:0}
   .lead b{color:var(--blue-m)}
-  .agent{display:inline-block;background:var(--tint);color:var(--blue);font-size:14.5px;font-weight:700;line-height:1.5;border-radius:999px;padding:5px 14px;margin:0 0 12px}
+  label.q{display:block}
+  select{width:100%;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:12px 14px;font-size:17px;font-family:inherit;line-height:1.5;cursor:pointer}
+  select.on{border-color:var(--blue-m);background:var(--tint);font-weight:700;color:var(--blue)}
   .step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-top:18px}
   .step-no{display:inline-block;font-size:13px;font-weight:700;color:var(--blue-m);background:var(--tint);border-radius:999px;padding:3px 11px;margin-bottom:10px}
   .q{font-size:18px;font-weight:700;margin:0 0 4px}
@@ -57,7 +59,7 @@
   .opt:active{transform:scale(.98)}
   .opt.on{border-color:var(--blue-m);background:var(--tint);font-weight:700;color:var(--blue)}
   .opt.on::after{content:"✓";position:absolute;right:14px;top:50%;transform:translateY(-50%);font-weight:900;color:var(--blue-m)}
-  .opt:focus-visible,.btn:focus-visible,textarea:focus-visible,#bar .logo:focus-visible{outline:3px solid var(--blue-l);outline-offset:2px}
+  .opt:focus-visible,.btn:focus-visible,select:focus-visible,textarea:focus-visible,#bar .logo:focus-visible{outline:3px solid var(--blue-l);outline-offset:2px}
   textarea{
     width:100%;min-height:220px;border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;
     font-size:16.5px;font-family:inherit;line-height:1.7;color:var(--ink);background:#fff;resize:vertical;
@@ -115,10 +117,16 @@
 
   <main id="form">
     <div class="intro">
-      <p class="agent" id="agentTag" hidden></p>
       <h2>謝謝你願意花 30 秒</h2>
       <p class="lead">全部用點的，不用打字。<b>整理出來的文字可以隨便改</b>，改成你自己會說的話最好。</p>
     </div>
+
+    <section class="step">
+      <span class="step-no">承辦</span>
+      <label class="q" for="agentSel">這次服務你的是哪一位？</label>
+      <p class="hint">選了之後，整理出來的文字會寫上他的名字</p>
+      <select id="agentSel"></select>
+    </section>
 
     <section class="step">
       <span class="step-no">1</span>
@@ -194,10 +202,9 @@ const AGENTS = {
   '14': { name: '鄧宥均' },
   '16': { name: '曾鈺婷' },
 };
-// 沒帶 a 的舊連結＝小白；帶了但對不到人就不掛任何名字，避免評論點錯人
-const AGENT_CODE = new URLSearchParams(location.search).get('a');
-const AGENT = AGENT_CODE === null ? AGENTS['01'] : AGENTS[AGENT_CODE] || null;
-const NAME = AGENT ? AGENT.call || AGENT.name : '';
+// 承辦由客人在最上面的選單選，連結帶 a 就先幫他選好；沒選之前不掛任何名字，避免評論點錯人
+let agentCode = AGENTS[new URLSearchParams(location.search).get('a')] ? new URLSearchParams(location.search).get('a') : '';
+let NAME = '';
 const REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJQVACXXt3bjQRc0SSbXY9TpU';
 const MAPS_REVIEW_URL = 'https://www.google.com/maps/place//data=!4m3!3m2!1s0x346e777b5d025041:0x954e3d766d924473!12e1';
 
@@ -317,13 +324,6 @@ function compose() {
 }
 
 const $ = (id) => document.getElementById(id);
-const PAGE_TITLE = '給' + (NAME || '齊家不動產') + '的一句話回饋';
-$('barTitle').textContent = PAGE_TITLE;
-document.title = PAGE_TITLE + '｜齊家不動產';
-if (AGENT) {
-  $('agentTag').textContent = '承辦：齊家不動產 ' + AGENT.name + (AGENT.call ? '（' + AGENT.call + '）' : '');
-  $('agentTag').hidden = false;
-}
 let svc = null;
 let src = null;
 const chosen = new Set();
@@ -341,9 +341,10 @@ function setOn(b, on) { b.classList.toggle('on', on); b.setAttribute('aria-press
 function clearBox(box) { [...box.children].forEach((x) => setOn(x, false)); }
 
 function refresh() {
-  const ok = !!svc && chosen.size > 0;
+  const ok = !!agentCode && !!svc && chosen.size > 0;
   $('genBtn').disabled = !ok;
   $('need').hidden = ok;
+  $('need').textContent = agentCode ? '第 1 題選一個、第 3 題至少點一個，就可以整理了' : '最上面先選服務你的業務，再點第 1 題和第 3 題';
 }
 
 function buildExtras() {
@@ -355,6 +356,32 @@ function buildExtras() {
     else if (extras.size < 2) { extras.add(t); setOn(b, true); }
   }));
 }
+
+function setAgent(code) {
+  agentCode = code;
+  const a = AGENTS[code];
+  NAME = a ? a.call || a.name : '';
+  const t = '給' + (NAME || '齊家不動產') + '的一句話回饋';
+  $('barTitle').textContent = t;
+  document.title = t + '｜齊家不動產';
+  $('agentSel').classList.toggle('on', !!code);
+  try {
+    const q = new URLSearchParams(location.search);
+    if (a) q.set('a', code); else q.delete('a');
+    const qs = q.toString();
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
+  } catch (e) {}
+  refresh();
+}
+[['', '請選擇'], ...Object.keys(AGENTS).sort().map((k) => [k, AGENTS[k].name + (AGENTS[k].call ? '（' + AGENTS[k].call + '）' : '')]), ['x', '不確定是哪一位']]
+  .forEach(([v, t]) => {
+    const o = document.createElement('option');
+    o.value = v; o.textContent = t; o.disabled = !v;
+    $('agentSel').appendChild(o);
+  });
+$('agentSel').value = agentCode;
+$('agentSel').addEventListener('change', () => setAgent($('agentSel').value));
+setAgent(agentCode);
 
 SERVICES.forEach((s) => addOpt($('svcOpts'), s.label, (b) => {
   if (svc === s) return;
@@ -432,16 +459,16 @@ $('webBtn').addEventListener('click', () => { const t = draftText(); if (t) copy
     : /FBAN|FBAV|FB_IAB/i.test(UA) ? 'Facebook' : '';
   if (!app) return;
 
-  const bare = location.origin + location.pathname + (AGENT_CODE === null ? '' : '?a=' + encodeURIComponent(AGENT_CODE));
+  const pageUrl = () => location.origin + location.pathname + (AGENTS[agentCode] ? '?a=' + agentCode : '');
   $('inappMsg').textContent = '你現在是在 ' + app + ' 裡面開這一頁。Google 不接受在 App 內建的瀏覽器登入，在這裡寫評論會失敗，換到瀏覽器只要一步。';
 
   if (app === 'LINE' && !/openExternalBrowser=1/.test(location.search)) {
     $('openBtn').hidden = false;
-    $('openBtn').addEventListener('click', () => { location.href = bare + (AGENT_CODE === null ? '?' : '&') + 'openExternalBrowser=1'; });
+    $('openBtn').addEventListener('click', () => { location.href = pageUrl() + (AGENTS[agentCode] ? '&' : '?') + 'openExternalBrowser=1'; });
   } else if (!/iPad|iPhone|iPod/.test(UA)) {
     $('openBtn').hidden = false;
     $('openBtn').addEventListener('click', () => {
-      location.href = 'intent://' + bare.replace(/^https?:\/\//, '') + '#Intent;scheme=https;action=android.intent.action.VIEW;end';
+      location.href = 'intent://' + pageUrl().replace(/^https?:\/\//, '') + '#Intent;scheme=https;action=android.intent.action.VIEW;end';
     });
   } else {
     const how = app === 'Instagram' || app === 'Threads'
@@ -451,7 +478,7 @@ $('webBtn').addEventListener('click', () => { const t = draftText(); if (t) copy
     $('inappSteps').hidden = false;
   }
 
-  $('copyUrlBtn').addEventListener('click', (e) => { copyNow(bare); e.target.textContent = '已複製，貼到瀏覽器打開'; });
+  $('copyUrlBtn').addEventListener('click', (e) => { copyNow(pageUrl()); e.target.textContent = '已複製，貼到瀏覽器打開'; });
   $('inapp').hidden = false;
 })();
 </script>
