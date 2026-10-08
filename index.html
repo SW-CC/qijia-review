@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#1C3D65">
-<title>給小白的一句話回饋｜齊家不動產</title>
+<title>一句話回饋｜齊家不動產</title>
 <meta name="description" content="全部用點的，不用打字，30 秒整理成一段話。">
-<meta property="og:title" content="給小白的一句話回饋">
+<meta property="og:title" content="一句話回饋｜齊家不動產">
 <meta property="og:description" content="全部用點的，不用打字，30 秒就好。">
 <meta property="og:type" content="website">
 <link rel="icon" href="logo-color.png">
@@ -43,6 +43,7 @@
   .intro h2{font-size:25px;line-height:1.45;margin:0 0 8px;font-weight:900;color:var(--blue)}
   .lead{color:var(--ink-soft);font-size:15.5px;margin:0}
   .lead b{color:var(--blue-m)}
+  .agent{display:inline-block;background:var(--tint);color:var(--blue);font-size:14.5px;font-weight:700;line-height:1.5;border-radius:999px;padding:5px 14px;margin:0 0 12px}
   .step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px;margin-top:18px}
   .step-no{display:inline-block;font-size:13px;font-weight:700;color:var(--blue-m);background:var(--tint);border-radius:999px;padding:3px 11px;margin-bottom:10px}
   .q{font-size:18px;font-weight:700;margin:0 0 4px}
@@ -98,7 +99,7 @@
 <body>
 <header id="bar">
   <a class="logo" href="https://www.benebuyhouse.com/" target="_blank" rel="noopener" title="前往齊家不動產官網"><img src="logo-color.png" alt="齊家不動產"></a>
-  <h1>給小白的一句話回饋<small>齊家不動產 × 陪你買好房</small></h1>
+  <h1><span id="barTitle">給齊家不動產的一句話回饋</span><small>齊家不動產 × 陪你買好房</small></h1>
 </header>
 
 <div id="scroll">
@@ -114,6 +115,7 @@
 
   <main id="form">
     <div class="intro">
+      <p class="agent" id="agentTag" hidden></p>
       <h2>謝謝你願意花 30 秒</h2>
       <p class="lead">全部用點的，不用打字。<b>整理出來的文字可以隨便改</b>，改成你自己會說的話最好。</p>
     </div>
@@ -176,7 +178,26 @@
 </div>
 
 <script>
-const NAME = '小白';
+const AGENTS = {
+  '01': { name: '周士煒', call: '小白' },
+  '02': { name: '洪秀如' },
+  '03': { name: '王淑君' },
+  '04': { name: '董信宏' },
+  '05': { name: '鄭宏祥' },
+  '06': { name: '朱寶章' },
+  '08': { name: '林敬能' },
+  '09': { name: '傅韋霖' },
+  '10': { name: '蔡佳紋' },
+  '11': { name: '張維剛' },
+  '12': { name: '王鐿靜' },
+  '13': { name: '楊浚禾' },
+  '14': { name: '鄧宥均' },
+  '16': { name: '曾鈺婷' },
+};
+// 沒帶 a 的舊連結＝小白；帶了但對不到人就不掛任何名字，避免評論點錯人
+const AGENT_CODE = new URLSearchParams(location.search).get('a');
+const AGENT = AGENT_CODE === null ? AGENTS['01'] : AGENTS[AGENT_CODE] || null;
+const NAME = AGENT ? AGENT.call || AGENT.name : '';
 const REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJQVACXXt3bjQRc0SSbXY9TpU';
 const MAPS_REVIEW_URL = 'https://www.google.com/maps/place//data=!4m3!3m2!1s0x346e777b5d025041:0x954e3d766d924473!12e1';
 
@@ -275,7 +296,7 @@ function nameIt(text) {
   for (let i = 0; i < text.length; i++) {
     if (text[i] === '他' && text[i - 1] !== '其' && text[i + 1] !== '們') spots.push(i);
   }
-  if (!spots.length) return text;
+  if (!spots.length || !NAME) return text;
   const use = spots.length >= 3 && Math.random() < 0.25 ? [spots[0], spots[spots.length - 1]] : [spots[0]];
   return use.reverse().reduce((s, i) => s.slice(0, i) + NAME + s.slice(i + 1), text);
 }
@@ -296,6 +317,13 @@ function compose() {
 }
 
 const $ = (id) => document.getElementById(id);
+const PAGE_TITLE = '給' + (NAME || '齊家不動產') + '的一句話回饋';
+$('barTitle').textContent = PAGE_TITLE;
+document.title = PAGE_TITLE + '｜齊家不動產';
+if (AGENT) {
+  $('agentTag').textContent = '承辦：齊家不動產 ' + AGENT.name + (AGENT.call ? '（' + AGENT.call + '）' : '');
+  $('agentTag').hidden = false;
+}
 let svc = null;
 let src = null;
 const chosen = new Set();
@@ -404,12 +432,12 @@ $('webBtn').addEventListener('click', () => { const t = draftText(); if (t) copy
     : /FBAN|FBAV|FB_IAB/i.test(UA) ? 'Facebook' : '';
   if (!app) return;
 
-  const bare = location.origin + location.pathname;
+  const bare = location.origin + location.pathname + (AGENT_CODE === null ? '' : '?a=' + encodeURIComponent(AGENT_CODE));
   $('inappMsg').textContent = '你現在是在 ' + app + ' 裡面開這一頁。Google 不接受在 App 內建的瀏覽器登入，在這裡寫評論會失敗，換到瀏覽器只要一步。';
 
   if (app === 'LINE' && !/openExternalBrowser=1/.test(location.search)) {
     $('openBtn').hidden = false;
-    $('openBtn').addEventListener('click', () => { location.href = bare + '?openExternalBrowser=1'; });
+    $('openBtn').addEventListener('click', () => { location.href = bare + (AGENT_CODE === null ? '?' : '&') + 'openExternalBrowser=1'; });
   } else if (!/iPad|iPhone|iPod/.test(UA)) {
     $('openBtn').hidden = false;
     $('openBtn').addEventListener('click', () => {
